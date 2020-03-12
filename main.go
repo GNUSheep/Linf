@@ -1,35 +1,6 @@
 package main
 
-import (
-	"gopkg.in/teh-cmc/go-sfml.v24/graphics"
-	"gopkg.in/teh-cmc/go-sfml.v24/window"
-)
-
 func main() {
-	vm := window.NewSfVideoMode()
-	defer window.DeleteSfVideoMode(vm)
-	vm.SetWidth(800)
-	vm.SetHeight(600)
-
-	/* Create the main window */
-	cs := window.NewSfContextSettings()
-	defer window.DeleteSfContextSettings(cs)
-	w := graphics.SfRenderWindow_create(vm, "SFML window", uint(window.SfResize|window.SfClose), cs)
-	defer window.SfWindow_destroy(w)
-
-	ev := window.NewSfEvent()
-	defer window.DeleteSfEvent(ev)
-
-	/* Start the game loop */
-	for window.SfWindow_isOpen(w) > 0 {
-		/* Process events */
-		for window.SfWindow_pollEvent(w, ev) > 0 {
-			/* Close window: exit */
-			if ev.GetXtype() == window.SfEventType(window.SfEvtClosed) {
-				return
-			}
-		}
-		graphics.SfRenderWindow_clear(w, graphics.GetSfBlack())
-		graphics.SfRenderWindow_display(w)
-	}
+	window_init()
+	game_loop()
 }
