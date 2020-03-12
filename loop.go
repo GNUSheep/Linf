@@ -6,6 +6,7 @@ import (
 )
 
 var eve window.SfEvent
+var gs string
 
 func game_loop() {
 	eve = window.NewSfEvent()
@@ -14,13 +15,16 @@ func game_loop() {
 	/* Start the game loop */
 	for window.SfWindow_isOpen(win) > 0 {
 		/* Process events */
+		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
+		graphics.SfRenderWindow_display(win)
+	}
+}
+
+func listen_events() {
 		for window.SfWindow_pollEvent(win, eve) > 0 {
 			/* Close window: exit */
 			if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
 				return
 			}
 		}
-		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
-		graphics.SfRenderWindow_display(win)
-	}
 }

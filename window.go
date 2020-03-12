@@ -14,5 +14,5 @@ func window_init() {
 
 	/* Create the main window */
 	cs := window.NewSfContextSettings()
-	win = graphics.SfRenderWindow_create(vm, "SFML window", uint(window.SfResize|window.SfClose), cs)
+	win = graphics.SfRenderWindow_create(vm, "Linf", uint(window.SfClose), cs)
 }
