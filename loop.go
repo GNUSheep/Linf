@@ -12,7 +12,7 @@ var gs string
 func game_loop() {
 	eve = window.NewSfEvent()
 	defer window.DeleteSfEvent(eve)
-
+	
 	/* Start the game loop */
 	for window.SfWindow_isOpen(win) > 0 {
 		/* Process events */
