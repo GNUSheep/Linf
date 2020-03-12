@@ -6,6 +6,7 @@ import (
 )
 
 var eve window.SfEvent
+// Game stage varible
 var gs string
 
 func game_loop() {
@@ -15,16 +16,21 @@ func game_loop() {
 	/* Start the game loop */
 	for window.SfWindow_isOpen(win) > 0 {
 		/* Process events */
-		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
-		graphics.SfRenderWindow_display(win)
+		listen_for_events()
+		go render_game()
 	}
 }
 
-func listen_events() {
+func listen_for_events() {
 	for window.SfWindow_pollEvent(win, eve) > 0 {
 		/* Close window: exit */
 		if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
 			return
 		}
 	}
+}
+
+func render_game() {
+		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
+		graphics.SfRenderWindow_display(win)
 }
