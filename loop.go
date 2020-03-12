@@ -21,10 +21,10 @@ func game_loop() {
 }
 
 func listen_events() {
-		for window.SfWindow_pollEvent(win, eve) > 0 {
-			/* Close window: exit */
-			if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
-				return
-			}
+	for window.SfWindow_pollEvent(win, eve) > 0 {
+		/* Close window: exit */
+		if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
+			return
 		}
+	}
 }
