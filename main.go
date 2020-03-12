@@ -1,20 +1,15 @@
 package main
 
 import (
-	"runtime"
-
 	"gopkg.in/teh-cmc/go-sfml.v24/graphics"
 	"gopkg.in/teh-cmc/go-sfml.v24/window"
 )
-
-func init() { runtime.LockOSThread() }
 
 func main() {
 	vm := window.NewSfVideoMode()
 	defer window.DeleteSfVideoMode(vm)
 	vm.SetWidth(800)
 	vm.SetHeight(600)
-	vm.SetBitsPerPixAddedAddedel(32)
 
 	/* Create the main window */
 	cs := window.NewSfContextSettings()
@@ -34,7 +29,7 @@ func main() {
 				return
 			}
 		}
-		graphics.SfRenderWindow_clear(w, graphics.GetSfRed())
+		graphics.SfRenderWindow_clear(w, graphics.GetSfBlack())
 		graphics.SfRenderWindow_display(w)
 	}
 }
