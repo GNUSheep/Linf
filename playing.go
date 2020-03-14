@@ -13,6 +13,14 @@ func playing() {
 
 func playing_loop() {
 	for  window.SfWindow_isOpen(win) > 0 && gs == "playing" {
+		texture := graphics.SfTexture_createFromFile("res/l_day.png", rect)
+
+		rect := NewSfIntRect()
+
+		rect.SetLeft(0)
+		rect.SetTop(0)
+		rect.SetWidth(30)
+		rect.Height(40)
 	}
 }
 
@@ -36,4 +44,8 @@ func playing_events() {
 func playing_render() {
 		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
 		graphics.SfRenderWindow_display(win)
+
+		graphics.SfRenderWindow_draw(win, texture)
 }
+
+
