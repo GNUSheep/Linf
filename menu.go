@@ -3,29 +3,31 @@ package main
 import (
 	"gopkg.in/teh-cmc/go-sfml.v24/graphics"
 	"gopkg.in/teh-cmc/go-sfml.v24/window"
-	"os"
+	"time"
 )
 
 func menu() {
+	go menu_events()
 	menu_loop()
 }
 
 func menu_loop() {
-	for window.SfWindow_isOpen(win) > 0 {
-		menu_events()
-		menu_render()
+	for  window.SfWindow_isOpen(win) > 0 && gs == "menu" {
 	}
 }
 
 func menu_events() {
-	for window.SfWindow_pollEvent(win, eve) > 0 {
-		/* Close window: exit */
-		if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
-			os.Exit(0)
-		}
-		if eve.GetXtype() == window.SfEventType(window.SfEvtKeyPressed) {
-			if (int(eve.GetKey().GetCode()) == window.SfKeyEscape) {
-				os.Exit(0)
+	time.Sleep(2 * time.Second)
+	for  window.SfWindow_isOpen(win) > 0 && gs == "menu" {
+		for window.SfWindow_pollEvent(win, eve) > 0 {
+			/* Close window: exit */
+			if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
+				gs = "exit"
+			}
+			if eve.GetXtype() == window.SfEventType(window.SfEvtKeyPressed) {
+				if (int(eve.GetKey().GetCode()) == window.SfKeyEscape) {
+					gs = "exit"
+				}
 			}
 		}
 	}

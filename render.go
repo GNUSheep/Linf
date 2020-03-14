@@ -12,6 +12,8 @@ func render() {
 			menu_render()
 		case "playing":
 			playing_render()
+		case "exit":
+			continue
 		default:
 			fmt.Println("Render error")
 		}
