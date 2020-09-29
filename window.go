@@ -7,9 +7,9 @@ import (
 )
 
 var win *sdl.Window
+var winWidth, winHeight int32 = 900, 600
 
 func window_init() {
-	var winWidth, winHeight int32 = 800, 600
 	/* Create the main window */
 	var err error
 	win, err = sdl.CreateWindow("Linf", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
