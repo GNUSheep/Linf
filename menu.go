@@ -1,39 +1,33 @@
 package main
 
 import (
-	"gopkg.in/teh-cmc/go-sfml.v24/graphics"
-	"gopkg.in/teh-cmc/go-sfml.v24/window"
-	"time"
+	"github.com/veandco/go-sdl2/sdl"
+	"fmt"
 )
 
 func menu() {
-	go menu_events()
 	menu_loop()
 }
 
 func menu_loop() {
-	for  window.SfWindow_isOpen(win) > 0 && gs == "menu" {
+	for gs == "menu" {
+		menu_events()
+		menu_render()
 	}
 }
 
 func menu_events() {
-	time.Sleep(2 * time.Second)
-	for  window.SfWindow_isOpen(win) > 0 && gs == "menu" {
-		for window.SfWindow_pollEvent(win, eve) > 0 {
-			/* Close window: exit */
-			if eve.GetXtype() == window.SfEventType(window.SfEvtClosed) {
-				gs = "exit"
-			}
-			if eve.GetXtype() == window.SfEventType(window.SfEvtKeyPressed) {
-				if (int(eve.GetKey().GetCode()) == window.SfKeyEscape) {
-					gs = "exit"
-				}
-			}
+	for event = sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
+		switch t := event.(type) {
+		case *sdl.QuitEvent:
+			gs = "exit"
+			case *sdl.MouseMotionEvent:
+			fmt.Printf("[%dms]MouseMotion\tid:%d\tx:%d\ty:%d\txrel:%d\tyrel:%d\n", t.Timestamp, t.Which, t.X, t.Y, t.XRel, t.YRel)
 		}
 	}
 }
-
 func menu_render() {
-		graphics.SfRenderWindow_clear(win, graphics.GetSfBlack())
-		graphics.SfRenderWindow_display(win)
+	renderer.Clear()
+	renderer.Present()
+	sdl.Delay(tick)
 }

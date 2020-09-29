@@ -1,18 +1,23 @@
 package main
 
 import (
-	"gopkg.in/teh-cmc/go-sfml.v24/graphics"
-	"gopkg.in/teh-cmc/go-sfml.v24/window"
+	"github.com/veandco/go-sdl2/sdl"
+	"os"
+	"fmt"
 )
 
-var win graphics.Struct_SS_sfRenderWindow
+var win *sdl.Window
 
 func window_init() {
-	vm := window.NewSfVideoMode()
-	vm.SetWidth(800)
-	vm.SetHeight(600)
-
+	var winWidth, winHeight int32 = 800, 600
 	/* Create the main window */
-	cs := window.NewSfContextSettings()
-	win = graphics.SfRenderWindow_create(vm, "Linf", uint(window.SfClose), cs)
+	var err error
+	win, err = sdl.CreateWindow("Linf", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+		winWidth, winHeight, sdl.WINDOW_SHOWN)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create window: %s\n", err)
+		os.Exit(0)
+	}
+	//defer window.Destroy()
 }
