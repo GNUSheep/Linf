@@ -24,13 +24,16 @@ func menu() {
 		fmt.Fprintf(os.Stderr, "Failed to create texture: %s\n", err)
 		os.Exit(0)
 	}
-	menu_loop()
+
+	menu_loops()
+
 }
 
-func menu_loop() {
+func menu_loops() {
+	go menu_render()
 	for gs == "menu" {
 		menu_events()
-		menu_render()
+		sdl.Delay(tick)
 	}
 }
 
@@ -45,10 +48,12 @@ func menu_events() {
 	}
 }
 func menu_render() {
-	renderer.Clear()
-	renderer.SetDrawColor(0, 0, 0, 255)
-	renderer.FillRect(&sdl.Rect{0, 0, int32(winWidth), int32(winHeight)})
-	renderer.Copy(menu_bg_texture, &src, &dst)
-	renderer.Present()
-	sdl.Delay(tick)
+	for gs == "menu" {
+		renderer.Clear()
+		renderer.SetDrawColor(0, 0, 0, 255)
+		renderer.FillRect(&sdl.Rect{0, 0, int32(winWidth), int32(winHeight)})
+		renderer.Copy(menu_bg_texture, &src, &dst)
+		renderer.Present()
+		sdl.Delay(tick)
+	}
 }

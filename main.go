@@ -1,6 +1,15 @@
 package main
 
+import (
+	"github.com/veandco/go-sdl2/sdl"
+	"os"
+)
+
 func main() {
-	game_init()
-	game_loop()
+	var exitcode int
+	sdl.Main(func() {
+		game_init()
+		exitcode = game_loop()
+	})
+	os.Exit(exitcode)
 }

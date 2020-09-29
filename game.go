@@ -29,7 +29,7 @@ func game_init() {
 	tick = 20
 }
 
-func game_loop() {
+func game_loop() int {
 	/* Start the game loop */
 	for true {
 		/* Game stage selection loop */
@@ -40,11 +40,12 @@ func game_loop() {
 		// case "playing":
 			// playing()
 		case "exit":
-			os.Exit(0)
+			return 0
 		default:
-			os.Exit(0)
+			return 0
 		}
 	}
+	return 0
 }
 
 
