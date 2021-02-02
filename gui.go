@@ -6,6 +6,7 @@ import (
 )
 
 const border = 5
+const margin = border*2
 
 type Button struct {
 	x, y int32
@@ -15,9 +16,18 @@ type Button struct {
 	fgColor sdl.Color
 }
 
-func (b Button) draw(renderer *sdl.Renderer) {
+func (b *Button) draw(renderer *sdl.Renderer) {
 	gfx.BoxColor(renderer, b.x, b.y, b.x+b.width, b.y+b.height, b.fgColor)
 	gfx.BoxColor(renderer, b.x+border, b.y+border,
 		b.x+b.width-border, b.y+b.height-border, b.bgColor)
-	gfx.StringColor(renderer, b.x+b.width/2, b.y+b.height/2, "GFX Demo", sdl.Color{255, 0, 0, 255})
+
+	var surface *sdl.Surface
+	var texture *sdl.Texture
+	surface, _ = font.RenderUTF8Solid(b.text, b.fgColor);
+	texture, _ = renderer.CreateTextureFromSurface(surface)
+
+	renderer.Copy(texture, 
+		&sdl.Rect{0, 0, surface.W, surface.H}, 
+		&sdl.Rect{b.x+margin, b.y, b.width-(margin*2), b.height-margin})
+	
 }
