@@ -16,6 +16,9 @@ type Button struct {
 	fgColor sdl.Color
 }
 
+func (b *Button) X() *int32{ return &b.x }
+func (b *Button) Y() *int32{ return &b.y }
+
 func (b *Button) draw(renderer *sdl.Renderer) {
 	gfx.BoxColor(renderer, b.x, b.y, b.x+b.width, b.y+b.height, b.fgColor)
 	gfx.BoxColor(renderer, b.x+border, b.y+border,

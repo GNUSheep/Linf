@@ -36,6 +36,7 @@ func main() {
 	defer renderer.Destroy()
 
 	var drawsys DrawingSystem
+	drawsys.init()
 	button := &Button{ 
 		x: 200, y: 300, width: 200, height: 100, text: "test", 
 		bgColor: sdl.Color{0, 255, 0, 255},
@@ -44,12 +45,15 @@ func main() {
 		x: 0, y: 0, width: 300, height: 100, text: "lol", 
 		bgColor: sdl.Color{0, 255, 0, 255},
 		fgColor: sdl.Color{255, 255, 255, 255}}
-	drawsys.addDrawable(button)
-	drawsys.addDrawable(button2)
+	renderer.Present()
+	drawsys.addDrawable(button, "button")
+	drawsys.addDrawable(button2, "button2")
 	drawsys.draw(renderer)
-
+	renderer.Present()
+	sdl.Delay(3000)
+	*drawsys.elements["button"].X() = 400
+	drawsys.draw(renderer)
 
 	renderer.Present()
 	sdl.Delay(30000)
-
 }
