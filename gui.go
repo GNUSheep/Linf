@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/gfx"
+	sdlttf "github.com/veandco/go-sdl2/ttf"
 )
 
 const border = 5
@@ -33,4 +34,23 @@ func (b *Button) draw(renderer *sdl.Renderer) {
 		&sdl.Rect{0, 0, surface.W, surface.H}, 
 		&sdl.Rect{b.x+margin, b.y, b.width-(margin*2), b.height-margin})
 	
+}
+
+type Text struct {
+	x, y int32
+	text string
+	font *sdlttf.Font
+	size int32
+	fgColor sdl.Color
+}
+
+func (t *Text) X() *int32{ return &t.x }
+func (t *Text) Y() *int32{ return &t.y }
+
+func (t *Text) draw(renderer *sdl.Renderer) {
+	var surface *sdl.Surface
+	var texture *sdl.Texture
+	surface, _ = t.font.RenderUTF8Solid(t.text, t.fgColor)
+	texture, _ = renderer.CreateTextureFromSurface(surface)
+	renderer.Copy(texture, nil, &sdl.Rect{t.x, t.y, t.size, t.size})
 }

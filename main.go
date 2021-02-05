@@ -45,7 +45,10 @@ func main() {
 		x: 0, y: 0, width: 300, height: 100, text: "lol", 
 		bgColor: sdl.Color{0, 255, 0, 255},
 		fgColor: sdl.Color{255, 255, 255, 255}}
+	text := &Text{
+		x: 300, y: 200, text: "LINF", font: font, size: 100, fgColor: sdl.Color{255, 255, 255, 255}}
 	renderer.Present()
+	drawsys.addDrawable(text, "text")
 	drawsys.addDrawable(button, "button")
 	drawsys.addDrawable(button2, "button2")
 	drawsys.draw(renderer)
