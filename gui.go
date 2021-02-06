@@ -4,6 +4,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/gfx"
 	sdlttf "github.com/veandco/go-sdl2/ttf"
+	"fmt"
 )
 
 const border = 5
@@ -15,6 +16,7 @@ type Button struct {
 	text string
 	bgColor sdl.Color
 	fgColor sdl.Color
+	onClick func()
 }
 
 func (b *Button) X() *int32{ return &b.x }
@@ -36,6 +38,14 @@ func (b *Button) draw(renderer *sdl.Renderer) {
 	
 }
 
+func (b *Button) handleInput(e sdl.Event) {
+	switch t := e.(type) {
+	case *sdl.MouseButtonEvent:
+		fmt.Printf("[%d ms] MouseButton\ttype:%d\tid:%d\tx:%d\ty:%d\tbutton:%d\tstate:%d\n",
+		t.Timestamp, t.Type, t.Which, t.X, t.Y, t.Button, t.State)
+	}
+}
+
 type Text struct {
 	x, y int32
 	text string
@@ -54,3 +64,5 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 	texture, _ = renderer.CreateTextureFromSurface(surface)
 	renderer.Copy(texture, nil, &sdl.Rect{t.x, t.y, t.size, t.size})
 }
+
+func (b *Text) handleInput(sdl.Event) {}

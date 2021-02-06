@@ -2,14 +2,13 @@ package main
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	"fmt"
 )
 
 type Object interface {
 	draw(*sdl.Renderer) 
 	X() *int32
 	Y() *int32
-	handleInput() 
+	handleInput(sdl.Event) 
 }
 
 type ObjectSystem struct {
@@ -25,11 +24,13 @@ func (o *ObjectSystem) init() {
 }
 
 func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
-	// for i := 0; i < len(o.elements); i++ {
-		// o.elements[i].draw(renderer)
-	// }
-	for key, value := range o.elements {
-		fmt.Println("Key:", key, "Value:", value)
+	for key, _ := range o.elements {
 		o.elements[key].draw(renderer)
+	}
+}
+
+func (o *ObjectSystem) handleInput(e sdl.Event) {
+	for key, _ := range o.elements {
+		o.elements[key].handleInput(event)
 	}
 }
