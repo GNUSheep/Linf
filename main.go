@@ -10,12 +10,13 @@ import (
 var winTitle string = "Linf"
 var winWidth, winHeight int32 = 800, 600
 var font *ttf.Font
+var window *sdl.Window
+var renderer *sdl.Renderer
+var event sdl.Event
 
 const fontname = "res/noto.ttf"
 
 func main() {
-	var window *sdl.Window
-	var renderer *sdl.Renderer
 	sdl.Init(sdl.INIT_EVERYTHING)
 	ttf.Init()
 	defer sdl.Quit()
@@ -34,6 +35,7 @@ func main() {
 	renderer, _ = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
 	renderer.Clear()
 	defer renderer.Destroy()
+	renderer.Present()
 
 	var drawsys ObjectSystem
 	drawsys.init()
@@ -47,7 +49,6 @@ func main() {
 		fgColor: sdl.Color{255, 255, 255, 255}}
 	text := &Text{
 		x: 300, y: 200, text: "LINF", font: font, size: 100, fgColor: sdl.Color{255, 255, 255, 255}}
-	renderer.Present()
 	drawsys.addObject(text, "text")
 	drawsys.addObject(button, "button")
 	drawsys.addObject(button2, "button2")
