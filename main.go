@@ -35,7 +35,7 @@ func main() {
 	renderer.Clear()
 	defer renderer.Destroy()
 
-	var drawsys DrawingSystem
+	var drawsys ObjectSystem
 	drawsys.init()
 	button := &Button{ 
 		x: 200, y: 300, width: 200, height: 100, text: "test", 
@@ -48,9 +48,9 @@ func main() {
 	text := &Text{
 		x: 300, y: 200, text: "LINF", font: font, size: 100, fgColor: sdl.Color{255, 255, 255, 255}}
 	renderer.Present()
-	drawsys.addDrawable(text, "text")
-	drawsys.addDrawable(button, "button")
-	drawsys.addDrawable(button2, "button2")
+	drawsys.addObject(text, "text")
+	drawsys.addObject(button, "button")
+	drawsys.addObject(button2, "button2")
 	drawsys.draw(renderer)
 	renderer.Present()
 	sdl.Delay(3000)

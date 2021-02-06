@@ -5,26 +5,26 @@ import (
 	"fmt"
 )
 
-type Drawable interface {
+type Object interface {
 	draw(*sdl.Renderer) 
 	X() *int32
 	Y() *int32
-	// handleInput() 
+	handleInput() 
 }
 
-type DrawingSystem struct {
-	elements map[string]Drawable
+type ObjectSystem struct {
+	elements map[string]Object
 }
 
-func (o *DrawingSystem) addDrawable(e Drawable, name string) {
+func (o *ObjectSystem) addObject(e Object, name string) {
 	o.elements[name] = e
 }
 
-func (o *DrawingSystem) init() {
-	o.elements = make(map[string]Drawable)
+func (o *ObjectSystem) init() {
+	o.elements = make(map[string]Object)
 }
 
-func (o *DrawingSystem) draw(renderer *sdl.Renderer) {
+func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
 	// for i := 0; i < len(o.elements); i++ {
 		// o.elements[i].draw(renderer)
 	// }
