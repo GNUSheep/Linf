@@ -13,6 +13,7 @@ var font *ttf.Font
 var window *sdl.Window
 var renderer *sdl.Renderer
 var event sdl.Event
+var statesys StateSystem
 
 const fontname = "res/noto.ttf"
 
@@ -33,31 +34,7 @@ func main() {
 	defer font.Close()
 
 	renderer, _ = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
-	renderer.Clear()
 	defer renderer.Destroy()
-	renderer.Present()
-
-	var drawsys ObjectSystem
-	drawsys.init()
-	button := &Button{ 
-		x: 200, y: 300, width: 200, height: 100, text: "test", 
-		bgColor: sdl.Color{0, 255, 0, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
-	button2 := &Button{ 
-		x: 0, y: 0, width: 300, height: 100, text: "lol", 
-		bgColor: sdl.Color{0, 255, 0, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
-	text := &Text{
-		x: 300, y: 200, text: "LINF", font: font, size: 100, fgColor: sdl.Color{255, 255, 255, 255}}
-	drawsys.addObject(text, "text")
-	drawsys.addObject(button, "button")
-	drawsys.addObject(button2, "button2")
-	drawsys.draw(renderer)
-	renderer.Present()
-	sdl.Delay(3000)
-	*drawsys.elements["button"].X() = 400
-	drawsys.draw(renderer)
-
-	renderer.Present()
-	sdl.Delay(30000)
+	statesys.init(&menu)
+	statesys.loop()
 }

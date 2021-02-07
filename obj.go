@@ -34,3 +34,8 @@ func (o *ObjectSystem) handleInput(e sdl.Event) {
 		o.elements[key].handleInput(event)
 	}
 }
+
+func (o *ObjectSystem) update() {
+	o.handleInput(event)
+	o.draw(renderer)
+}

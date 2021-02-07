@@ -29,8 +29,11 @@ func (b *Button) draw(renderer *sdl.Renderer) {
 
 	var surface *sdl.Surface
 	var texture *sdl.Texture
+
 	surface, _ = font.RenderUTF8Solid(b.text, b.fgColor);
 	texture, _ = renderer.CreateTextureFromSurface(surface)
+	defer texture.Destroy() 
+	defer surface.Free() 
 
 	renderer.Copy(texture, 
 		&sdl.Rect{0, 0, surface.W, surface.H}, 
@@ -62,6 +65,8 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 	var texture *sdl.Texture
 	surface, _ = t.font.RenderUTF8Solid(t.text, t.fgColor)
 	texture, _ = renderer.CreateTextureFromSurface(surface)
+	defer texture.Destroy() 
+	defer surface.Free() 
 	renderer.Copy(texture, nil, &sdl.Rect{t.x, t.y, t.size, t.size})
 }
 
