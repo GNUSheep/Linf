@@ -30,6 +30,7 @@ func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
 }
 
 func (o *ObjectSystem) handleInput(e sdl.Event) {
+	event = sdl.PollEvent()
 	for key, _ := range o.elements {
 		o.elements[key].handleInput(event)
 	}

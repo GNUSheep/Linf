@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
+	"strconv"
+	"os"
 )
 
 type MenuState struct {
@@ -13,20 +15,22 @@ var menu MenuState
 
 func (s *MenuState) init() {
 	s.objsys.init()
-	button := &Button{ 
-		x: 200, y: 300, width: 200, height: 100, text: "test", 
-		bgColor: sdl.Color{0, 255, 0, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
-	button2 := &Button{ 
-		x: 0, y: 0, width: 300, height: 100, text: "lol", 
-		bgColor: sdl.Color{0, 0, 255, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
+	for i := int32(0); i < 3; i++ {
+		
+		button := &Button{ 
+			x: winWidth/2, y: winHeight/2+((65+10)*i)-50, width: 220, height: 65, text: " ", 
+			bgColor: sdl.Color{0, 0, 255, 255},
+			fgColor: sdl.Color{255, 255, 255, 255}}
+		button.onClick = func() { }
+		s.objsys.addObject(button, "button" + strconv.Itoa(int(i)))
+	}
+	s.objsys.elements["button0"].(*Button).text = "   Start   "
+	s.objsys.elements["button1"].(*Button).text = "Options"
+	s.objsys.elements["button2"].(*Button).text = "   Exit   "
+	s.objsys.elements["button2"].(*Button).onClick = func() { os.Exit(0) }
 	text := &Text{
-		x: 300, y: 200, text: "LINF", font: font, size: 100, fgColor: sdl.Color{255, 255, 255, 255}}
+		x: winWidth/2, y: winHeight/5, text: "LINF", font: font, size: 0.6, fgColor: sdl.Color{255, 255, 255, 255}}
 	s.objsys.addObject(text, "text")
-	s.objsys.addObject(button, "button")
-	s.objsys.addObject(button2, "button2")
-	fmt.Println(button)
 }
 
 func (s *MenuState) loop() {
