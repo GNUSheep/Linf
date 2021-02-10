@@ -15,7 +15,7 @@ var renderer *sdl.Renderer
 var event sdl.Event
 var statesys StateSystem
 
-const fontname = "res/noto.ttf"
+const fontname = "res/font.ttf"
 
 func main() {
 	sdl.Init(sdl.INIT_EVERYTHING)

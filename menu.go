@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	"strconv"
 	"os"
@@ -11,7 +10,6 @@ type MenuState struct {
 	objsys ObjectSystem
 } 
 var menu MenuState
-
 
 func (s *MenuState) init() {
 	s.objsys.init()
@@ -27,14 +25,15 @@ func (s *MenuState) init() {
 	s.objsys.elements["button0"].(*Button).text = "   Start   "
 	s.objsys.elements["button1"].(*Button).text = "Options"
 	s.objsys.elements["button2"].(*Button).text = "   Exit   "
+	s.objsys.elements["button0"].(*Button).onClick = func() { statesys.setState(&game) }
 	s.objsys.elements["button2"].(*Button).onClick = func() { os.Exit(0) }
 	text := &Text{
-		x: winWidth/2, y: winHeight/5, text: "LINF", font: font, size: 0.6, fgColor: sdl.Color{255, 255, 255, 255}}
+		x: winWidth/2, y: winHeight/5, text: "LINF", font: font, size: 0.8, fgColor: sdl.Color{255, 255, 255, 255}}
 	s.objsys.addObject(text, "text")
 }
 
 func (s *MenuState) loop() {
-	
+
 }
 
 func (s MenuState) ObjectSystem() *ObjectSystem { return &s.objsys }

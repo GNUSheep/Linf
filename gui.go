@@ -4,6 +4,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/gfx"
 	sdlttf "github.com/veandco/go-sdl2/ttf"
+	"github.com/veandco/go-sdl2/img"
 	"fmt"
 )
 
@@ -85,3 +86,25 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 }
 
 func (b *Text) handleInput(sdl.Event) {}
+
+type Background struct {
+	file string
+	x, y int32
+}
+
+func (bg *Background) X() *int32{ return &bg.x }
+func (bg *Background) Y() *int32{ return &bg.y }
+
+func (bg *Background) draw(renderer *sdl.Renderer) {
+	var texture *sdl.Texture
+
+	bgfile, _ := img.Load(bg.file)
+	texture, _ = renderer.CreateTextureFromSurface(bgfile)
+	defer bgfile.Free()
+	defer texture.Destroy()
+
+	renderer.Copy(texture, nil, &sdl.Rect{0, 0, 800, 600})
+}
+
+func (bg *Background) handleInput(sdl.Event) {}
+
