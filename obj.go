@@ -2,30 +2,42 @@ package main
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	"sort"
 )
 
 type Object interface {
 	draw(*sdl.Renderer) 
 	X() *int32
 	Y() *int32
+	Layer() *int
 	handleInput(sdl.Event) 
 }
 
 type ObjectSystem struct {
 	elements map[string]Object
+	layers map[int][]Object
 }
 
 func (o *ObjectSystem) addObject(e Object, name string) {
 	o.elements[name] = e
+	o.layers[*e.Layer()] = append(o.layers[*e.Layer()], e)
 }
 
 func (o *ObjectSystem) init() {
 	o.elements = make(map[string]Object)
+	o.layers = make(map[int][]Object)
 }
 
 func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
-	for key, _ := range o.elements {
-		o.elements[key].draw(renderer)
+	keys := make([]int, 0, len(o.layers))
+	for k, _ := range o.layers {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+	for key, _ := range keys {
+		for num, _ := range o.layers[key] {
+			o.layers[key][num].draw(renderer)
+		}
 	}
 }
 

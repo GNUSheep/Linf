@@ -13,6 +13,7 @@ const margin = border*2
 
 type Button struct {
 	x, y int32
+	layer int
 	width, height int32
 	text string
 	bgColor sdl.Color
@@ -22,6 +23,7 @@ type Button struct {
 
 func (b *Button) X() *int32{ return &b.x }
 func (b *Button) Y() *int32{ return &b.y }
+func (b *Button) Layer() *int{ return &b.layer }
 
 func (b *Button) draw(renderer *sdl.Renderer) {
 	gfx.BoxColor(renderer, b.x-(b.width/2), b.y-(b.height/2), b.x+(b.width/2), b.y+(b.height/2), b.bgColor)
@@ -52,10 +54,10 @@ func (b *Button) handleInput(e sdl.Event) {
 			b.y-(b.height/2) < t.Y && t.Y < b.y+(b.height/2) {
 				switch t.State {
 					case 1:
-						b.onClick()
 						fmt.Println(b)
 						b.bgColor.A = 150
 					case 0:
+						b.onClick()
 						b.bgColor.A = 255
 				}
 			}
@@ -64,6 +66,7 @@ func (b *Button) handleInput(e sdl.Event) {
 
 type Text struct {
 	x, y int32
+	layer int
 	text string
 	font *sdlttf.Font
 	size float32
@@ -72,6 +75,7 @@ type Text struct {
 
 func (t *Text) X() *int32{ return &t.x }
 func (t *Text) Y() *int32{ return &t.y }
+func (t *Text) Layer() *int{ return &t.layer }
 
 func (t *Text) draw(renderer *sdl.Renderer) {
 	var surface *sdl.Surface
@@ -88,12 +92,14 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 func (b *Text) handleInput(sdl.Event) {}
 
 type Background struct {
-	file string
 	x, y int32
+	layer int
+	file string
 }
 
 func (bg *Background) X() *int32{ return &bg.x }
 func (bg *Background) Y() *int32{ return &bg.y }
+func (bg *Background) Layer() *int{ return &bg.layer }
 
 func (bg *Background) draw(renderer *sdl.Renderer) {
 	var texture *sdl.Texture
