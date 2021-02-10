@@ -51,16 +51,16 @@ func (b *Button) handleInput(e sdl.Event) {
 		// fmt.Printf("[%d ms] MouseButton\ttype:%d\tid:%d\tx:%d\ty:%d\tbutton:%d\tstate:%d\n",
 		// t.Timestamp, t.Type, t.Which, t.X, t.Y, t.Button, t.State)
 		if b.x-(b.width/2) < t.X && t.X < b.x+(b.width/2) &&
-			b.y-(b.height/2) < t.Y && t.Y < b.y+(b.height/2) {
-				switch t.State {
-					case 1:
-						fmt.Println(b)
-						b.bgColor.A = 150
-					case 0:
-						b.onClick()
-						b.bgColor.A = 255
-				}
+		   b.y-(b.height/2) < t.Y && t.Y < b.y+(b.height/2) {
+			switch t.State {
+			case 1:
+				fmt.Println(b)
+				b.bgColor.A = 150
+			case 0:
+				b.onClick()
+				b.bgColor.A = 255
 			}
+		}
 	}
 }
 

@@ -13,7 +13,7 @@ var menu MenuState
 
 func (s *MenuState) init() {
 	s.objsys.init()
-	bg := &Background{file: "./res/l_night.png", layer: 0}
+	bg := &Background{file: "./res/l_sun_set.png", layer: 0}
 	s.objsys.addObject(bg, "bg")
 	for i := int32(0); i < 3; i++ {
 		
