@@ -1,5 +1,9 @@
 package main
 
+import (
+	"github.com/veandco/go-sdl2/sdl"
+)
+
 type State interface {
 	init()
 	loop()
@@ -38,6 +42,7 @@ func (ss *StateSystem) loop() {
 			ss.current.loop()
 			ss.current.ObjectSystem().update()
 			renderer.Present()
+			sdl.Delay(20)
 		}
 	}
 }

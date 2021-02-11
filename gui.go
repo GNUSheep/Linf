@@ -92,13 +92,12 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 func (b *Text) handleInput(sdl.Event) {}
 
 type Background struct {
-	x, y int32
 	layer int
 	file string
 }
 
-func (bg *Background) X() *int32{ return &bg.x }
-func (bg *Background) Y() *int32{ return &bg.y }
+func (bg *Background) X() *int32{ return nil }
+func (bg *Background) Y() *int32{ return nil }
 func (bg *Background) Layer() *int{ return &bg.layer }
 
 func (bg *Background) draw(renderer *sdl.Renderer) {
