@@ -14,6 +14,7 @@ var window *sdl.Window
 var renderer *sdl.Renderer
 var event sdl.Event
 var statesys StateSystem
+var deltaTime uint32
 
 const fontname = "res/font.ttf"
 

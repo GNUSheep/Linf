@@ -18,13 +18,11 @@ type StateSystem struct {
 
 func (ss *StateSystem) init(s State) {
 	ss.current = s
-	// ss.current.ObjectSystem().init()
 	ss.active = true
 }
 
 func (ss *StateSystem) setState(s State) {
 	ss.current = s
-	// ss.current.ObjectSystem().init()
 	ss.changed = true
 }
 
@@ -37,12 +35,15 @@ func (ss *StateSystem) loop() {
 			continue
 		}
 		for ss.changed == false {
+			lastTime := sdl.GetTicks() 
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
 			ss.current.loop()
-			ss.current.ObjectSystem().update()
+			ss.current.ObjectSystem().handleInput(event)
+			ss.current.ObjectSystem().draw(renderer)
 			renderer.Present()
-			sdl.Delay(20)
+			sdl.Delay(1000/40)
+			deltaTime = sdl.GetTicks() - lastTime
 		}
 	}
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	"sort"
+	"reflect"
+	"fmt"
 )
 
 type Object interface {
@@ -43,8 +45,16 @@ func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
 
 func (o *ObjectSystem) handleInput(e sdl.Event) {
 	event = sdl.PollEvent()
-	for key, _ := range o.elements {
-		o.elements[key].handleInput(event)
+	switch event.(type) {
+	case *sdl.MouseMotionEvent:
+		event = sdl.PollEvent()
+		return
+	default:
+		fmt.Println(reflect.TypeOf(event))
+		fmt.Println(deltaTime)
+		for key, _ := range o.elements {
+			o.elements[key].handleInput(event)
+		}
 	}
 }
 
