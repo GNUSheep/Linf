@@ -6,11 +6,11 @@ import(
 	"github.com/veandco/go-sdl2/img"
 )
 
-const g = 0.35
+const g = 0.60
+const maxYSpeed = -17
 
 type GameState struct {
-	objsys ObjectSystem
-} 
+	objsys ObjectSystem } 
 var game GameState
 func (s GameState) ObjectSystem() *ObjectSystem { return &s.objsys }
 
@@ -55,8 +55,8 @@ func (p *Player) Layer() *int{ return &p.layer }
 
 func (p *Player) update() {
 	p.accelX = 0
-	if p.accelY < -11 {
-		p.accelY = -11
+	if p.accelY < maxYSpeed {
+		p.accelY = maxYSpeed
 	}
 	if p.accelY > 0 {
 		p.textureFile = "./res/bird/bird3.png"
@@ -85,7 +85,7 @@ func (p *Player) handleInput(e sdl.Event) {
 	switch t := e.(type) {
 	case *sdl.KeyboardEvent:
 		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 {
-			p.accelY += -24
+			p.accelY += -23
 		}
 
 	}
