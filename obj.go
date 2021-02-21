@@ -43,13 +43,8 @@ func (o *ObjectSystem) draw(renderer *sdl.Renderer) {
 	}
 }
 
-func (o *ObjectSystem) handleInput(e sdl.Event) {
-	event = sdl.PollEvent()
-	switch event.(type) {
-	case *sdl.MouseMotionEvent:
-		event = sdl.PollEvent()
-		return
-	default:
+func (o *ObjectSystem) handleInput() {
+	for event = sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		fmt.Println(reflect.TypeOf(event))
 		fmt.Println(deltaTime)
 		for key, _ := range o.elements {
@@ -59,6 +54,6 @@ func (o *ObjectSystem) handleInput(e sdl.Event) {
 }
 
 func (o *ObjectSystem) update() {
-	o.handleInput(event)
+	o.handleInput()
 	o.draw(renderer)
 }
