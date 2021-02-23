@@ -4,6 +4,7 @@ import(
 	"time"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/img"
+	"strconv"
 )
 
 const g = 0.60
@@ -30,13 +31,16 @@ func (s *GameState) init() {
 	s.objsys.addObject(bg, "bg")
 	s.objsys.addObject(&Player{ x: 250, y:50, width: 50, height: 50, 
 	layer: 1, textureFile: "./res/bird/bird3.png" }, "player")
-	s.objsys.addObject(&Pipe{ x: winWidth, height: winHeight/2, 
-	layer: 1, position: "bottom", textureFile: "./res/pipe.png" }, "pipe")
+	// s.objsys.addObject(&Pipe{ x: winWidth, height: winHeight/2, 
+	// layer: 1, position: "top", textureFile: "./res/pipe.png" }, "pipe")
+	var pipes Pipes
+	pipes.init(20, 1, "./res/pipe.png", 7)
+	s.objsys.addObject(&pipes, "pipes")
 }
 
 func (s *GameState) loop() {
 	s.objsys.elements["player"].(*Player).update()
-	s.objsys.elements["pipe"].(*Pipe).update()
+	s.objsys.elements["pipes"].(*Pipes).update()
 }
 
 
@@ -130,3 +134,43 @@ func (p *Pipe) draw(renderer *sdl.Renderer) {
 }
 
 func (p *Pipe) handleInput(e sdl.Event) { }
+
+type Pipes struct {
+	x, y int32
+	gapSize int32
+	layer int
+	textureFile string
+	count int32
+	pipes []*Pipe
+}
+
+func (p *Pipes) update() {
+	for _, e := range p.pipes {
+		e.update()
+	}
+}
+
+func (p *Pipes) X() *int32{ return &p.x }
+func (p *Pipes) Y() *int32{ return &p.y }
+func (p *Pipes) Layer() *int{ return &p.layer }
+
+func (p *Pipes) init(gapSize int32, layer int, texture string, count int32) {
+	p.pipes = make([]*Pipe, count*2, count*2)
+	for i, _ := range p.pipes {
+		if i%2 == 0 {
+			p.pipes[i], _ = &Pipe{ x: winWidth, height: winHeight/2, layer: layer, 
+			position: "top", textureFile: texture }, "pipe" + strconv.Itoa(int(i))
+		} else {
+			p.pipes[i], _ = &Pipe{ x: winWidth, height: winHeight/2, layer: layer, 
+			position: "bottom", textureFile: texture }, "pipe" + strconv.Itoa(int(i))
+		}
+	}
+}
+
+func (p *Pipes) draw(renderer *sdl.Renderer) {
+	for _, e := range p.pipes {
+		e.draw(renderer)
+	}
+}
+
+func (p *Pipes) handleInput(e sdl.Event) { }
