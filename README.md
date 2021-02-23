@@ -1,12 +1,14 @@
-# Linf
-Linf is a WIP Flappy bird clone written in Go
+# Linf - a WIP Flappy bird clone written in Go
+<p align="center">
+	<img height="400" src="screenshot.png">
+</p>
 
-## Compiling
-Deps:
+### Build Dependencies
 ```
 - SDL2
 ```
-Compiling:
+
+### Compiling
 ```
 $ go build
 ```
