@@ -25,17 +25,16 @@ func main() {
 
 	window, _ = sdl.CreateWindow(winTitle, sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, winWidth, winHeight, sdl.WINDOW_SHOWN)
 	defer window.Destroy()
-
+	renderer, _ = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
+	defer renderer.Destroy()
+	renderer.Present()
 	var err error
-
 	font, err = ttf.OpenFont(fontname, 200);
 	if err != nil {
 		fmt.Println("Font not found!1!!")
 	}
 	defer font.Close()
 
-	renderer, _ = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
-	defer renderer.Destroy()
 	statesys.init(&menu)
 	statesys.loop()
 }

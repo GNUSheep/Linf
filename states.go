@@ -39,8 +39,7 @@ func (ss *StateSystem) loop() {
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
 			ss.current.loop()
-			ss.current.ObjectSystem().handleInput()
-			ss.current.ObjectSystem().draw(renderer)
+			ss.current.ObjectSystem().update()
 			renderer.Present()
 			sdl.Delay(1000/40)
 			deltaTime = sdl.GetTicks() - lastTime
