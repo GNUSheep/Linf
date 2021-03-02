@@ -5,6 +5,7 @@ import(
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/img"
 	"strconv"
+	"os"
 )
 
 const g = 0.60
@@ -87,11 +88,15 @@ func (p *Player) draw(renderer *sdl.Renderer) {
 
 func (p *Player) handleInput(e sdl.Event) {
 	switch t := e.(type) {
+	case *sdl.QuitEvent:
+		os.Exit(0)
 	case *sdl.KeyboardEvent:
 		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 {
 			p.accelY += -23
 		}
-
+		if t.Keysym.Sym == sdl.K_ESCAPE {
+			statesys.init(&menu)
+		}
 	}
 }
 
