@@ -6,10 +6,12 @@ import(
 	"github.com/veandco/go-sdl2/img"
 	"strconv"
 	"os"
+//	"fmt"
 )
 
-const g = 0.60
+const g = 1
 const maxYSpeed = -17
+const maxRot = 70
 
 type GameState struct {
 	objsys ObjectSystem } 
@@ -71,7 +73,14 @@ func (p *Player) update() {
 	p.accelY += g * float32(deltaTime) / 25
 	p.x += int32(p.accelX)
 	p.y += int32(p.accelY)
-	p.rotation = float64(p.accelY * 5)
+	if maxRot > float64(p.accelY * 3){
+	p.rotation = float64(p.accelY * 3)
+	}//else{
+	//p.rotation = maxRovt
+	//}
+	if p.y > 600 || 0 > p.y  {
+		statesys.init(&menu)
+	}
 }
 
 func (p *Player) draw(renderer *sdl.Renderer) {
@@ -92,7 +101,7 @@ func (p *Player) handleInput(e sdl.Event) {
 		os.Exit(0)
 	case *sdl.KeyboardEvent:
 		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 {
-			p.accelY += -23
+				p.accelY += -29
 		}
 		if t.Keysym.Sym == sdl.K_ESCAPE {
 			statesys.init(&menu)
