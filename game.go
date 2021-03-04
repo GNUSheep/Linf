@@ -101,7 +101,7 @@ func (p *Player) handleInput(e sdl.Event) {
 		os.Exit(0)
 	case *sdl.KeyboardEvent:
 		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 {
-				p.accelY += -29
+			p.accelY += -29
 		}
 		if t.Keysym.Sym == sdl.K_ESCAPE {
 			statesys.init(&menu)
