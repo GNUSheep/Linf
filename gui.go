@@ -85,7 +85,7 @@ func (t *Text) draw(renderer *sdl.Renderer) {
 	renderer.Copy(texture, nil, &sdl.Rect{t.x-(width/2), t.y-(height/2), width, height})
 }
 
-func (b *Text) handleInput(sdl.Event) {}
+func (t *Text) handleInput(sdl.Event) {}
 
 type Background struct {
 	layer int

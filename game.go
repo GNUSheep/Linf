@@ -6,11 +6,15 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"strconv"
+	//"fmt"
 )
 
 const g = 1
 const maxYSpeed = -17
 const maxRot = 70
+
+var counter = 0
 
 type GameState struct {
 	objsys ObjectSystem
@@ -37,13 +41,18 @@ func (s *GameState) init() {
 	s.objsys.addObject(bg, "bg")
 	s.objsys.addObject(&Player{x: 250, y: 50, width: 50, height: 50,
 		layer: 1, textureFile: "./res/bird/bird3.png"}, "player")
+	var score Score
+	score.init(1, 1, 2)
+	s.objsys.addObject(&score, "score")
 	var pipes Pipes
 	pipes.init(200, 1, "./res/pipe.png")
 	s.objsys.addObject(&pipes, "pipes")
+	counter = 0
 }
 
 func (s *GameState) loop() {
 	s.objsys.elements["player"].(*Player).update()
+	s.objsys.elements["score"].(*Score).update()
 	s.objsys.elements["pipes"].(*Pipes).update()
 	checkCollisions(s.objsys.elements["pipes"].(*Pipes),
 		s.objsys.elements["player"].(*Player))
@@ -79,7 +88,7 @@ func (p *Player) update() {
 		p.rotation = float64(p.accelY * 3)
 	}
 	if p.y > winHeight-p.height/2 || 0 > p.y-p.height/2 {
-		statesys.init(&menu)
+		statesys.setState(&over)
 	}
 	// fmt.Println("player y:", p.y)
 }
@@ -105,9 +114,48 @@ func (p *Player) handleInput(e sdl.Event) {
 			p.accelY += -29
 		}
 		if t.Keysym.Sym == sdl.K_ESCAPE {
-			statesys.init(&menu)
+			//statesys.init(&over)
+			statesys.setState(&over)
 		}
 	}
+}
+
+type Score struct {
+	x, y		int32
+	layer		int
+	score		*Text
+}
+
+func (s *Score) X() *int32   { return &s.x }
+func (s *Score) Y() *int32   { return &s.y }
+func (s *Score) Layer() *int { return &s.layer }
+func (s *Score) handleInput(e sdl.Event) {}
+
+func (s *Score) init(x int32, y int32, layer int){
+	s.x = x
+	s.y = y
+	s.layer = layer
+	s.score = &Text{x: winWidth/2, y: winHeight/5, layer: 2, text: "0", font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
+}
+
+func (s *Score) update() {
+	if counter >= 3 {
+		s.score = &Text{
+			x: winWidth/2, y: winHeight/5, layer: 2, text: strconv.Itoa(counter - 2), font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
+		}
+}
+
+func (s *Score) draw(renderer *sdl.Renderer) {
+//	var surface *sdl.Surface
+//	var texture *sdl.Texture
+//	surface, _ = s.score.font.RenderUTF8Solid(s.score.text, s.score.fgColor)
+//	texture, _ = renderer.CreateTextureFromSurface(surface)
+//	defer texture.Destroy() 
+//	defer surface.Free() 
+//	width := int32(float32(surface.W)*s.score.size)
+//	height := int32(float32(surface.H)*s.score.size)
+//	renderer.Copy(texture, nil, &sdl.Rect{s.score.x-(width/2), s.score.y-(height/2), width, height})
+	s.score.draw(renderer)
 }
 
 type Pipe struct {
@@ -171,6 +219,7 @@ func (p *Pipes) update() {
 			layer: p.layer, position: "top", textureFile: p.textureFile})
 		p.pipes = append(p.pipes, &Pipe{x: winWidth, y: vari, height: (winHeight / 2) - p.gapSize/2,
 			layer: p.layer, position: "bottom", textureFile: p.textureFile})
+		counter += 1
 	}
 	for _, v := range p.pipes {
 		v.update()
@@ -210,10 +259,10 @@ func checkCollisions(pipes *Pipes, player *Player) {
 			switch {
 			case v.position == "bottom" &&
 				winHeight+v.y-v.height < (player.y+player.height/2):
-				statesys.init(&menu)
+				statesys.setState(&over)
 			case v.position == "top" &&
 				v.y+v.height > (player.y-player.height/2):
-				statesys.init(&menu)
+				statesys.setState(&over)
 			}
 		}
 	}
