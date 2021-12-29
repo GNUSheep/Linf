@@ -38,6 +38,7 @@ func (s *MenuState) init() {
 	s.objsys.elements["button1"].(*Button).text = "Options"
 	s.objsys.elements["button2"].(*Button).text = "   Exit   "
 	s.objsys.elements["button0"].(*Button).onClick = func() { statesys.setState(&game) }
+	s.objsys.elements["button1"].(*Button).onClick = func() { statesys.setState(&options) }
 	s.objsys.elements["button2"].(*Button).onClick = func() { os.Exit(0) }
 	text := &Text{
 		x: winWidth/2, y: winHeight/5, layer: 0, text: "LINF", font: font, size: 0.8, fgColor: sdl.Color{255, 255, 255, 255}}

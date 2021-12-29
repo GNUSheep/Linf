@@ -26,9 +26,6 @@ func (b *Button) Layer() *int{ return &b.layer }
 
 func (b *Button) draw(renderer *sdl.Renderer) {
 	gfx.BoxColor(renderer, b.x-(b.width/2), b.y-(b.height/2), b.x+(b.width/2), b.y+(b.height/2), b.bgColor)
-	// I dont like the borders xd
-	// gfx.BoxColor(renderer, b.x+border, b.y+border,
-		// b.x+b.width-border, b.y+b.height-border, b.bgColor)
 
 	var surface *sdl.Surface
 	var texture *sdl.Texture

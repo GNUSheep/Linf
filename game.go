@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 	"strconv"
-	//"fmt"
 )
 
 const g = 1
@@ -15,6 +14,8 @@ const maxYSpeed = -17
 const maxRot = 70
 
 var counter = 0
+var gapSize = int32(200)
+var control_way = "keyboard"
 
 type GameState struct {
 	objsys ObjectSystem
@@ -45,7 +46,7 @@ func (s *GameState) init() {
 	score.init(1, 1, 2)
 	s.objsys.addObject(&score, "score")
 	var pipes Pipes
-	pipes.init(200, 1, "./res/pipe.png")
+	pipes.init(gapSize, 1, "./res/pipe.png")
 	s.objsys.addObject(&pipes, "pipes")
 	counter = 0
 }
@@ -90,7 +91,6 @@ func (p *Player) update() {
 	if p.y > winHeight-p.height/2 || 0 > p.y-p.height/2 {
 		statesys.setState(&over)
 	}
-	// fmt.Println("player y:", p.y)
 }
 
 func (p *Player) draw(renderer *sdl.Renderer) {
@@ -110,12 +110,15 @@ func (p *Player) handleInput(e sdl.Event) {
 	case *sdl.QuitEvent:
 		os.Exit(0)
 	case *sdl.KeyboardEvent:
-		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 {
+		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 && control_way == "keyboard" {
 			p.accelY += -29
 		}
 		if t.Keysym.Sym == sdl.K_ESCAPE {
-			//statesys.init(&over)
 			statesys.setState(&over)
+		}
+	case *sdl.MouseButtonEvent:
+		if t.Button == 1 && t.State == 1 && control_way == "mouse" {
+			p.accelY += -29
 		}
 	}
 }
@@ -146,15 +149,6 @@ func (s *Score) update() {
 }
 
 func (s *Score) draw(renderer *sdl.Renderer) {
-//	var surface *sdl.Surface
-//	var texture *sdl.Texture
-//	surface, _ = s.score.font.RenderUTF8Solid(s.score.text, s.score.fgColor)
-//	texture, _ = renderer.CreateTextureFromSurface(surface)
-//	defer texture.Destroy() 
-//	defer surface.Free() 
-//	width := int32(float32(surface.W)*s.score.size)
-//	height := int32(float32(surface.H)*s.score.size)
-//	renderer.Copy(texture, nil, &sdl.Rect{s.score.x-(width/2), s.score.y-(height/2), width, height})
 	s.score.draw(renderer)
 }
 
@@ -253,7 +247,6 @@ func (p *Pipes) handleInput(e sdl.Event) {}
 
 func checkCollisions(pipes *Pipes, player *Player) {
 	for _, v := range pipes.pipes {
-		// fmt.Println("pipe y:", pipes.pipes[1].height + pipes.pipes[1].y)
 		if v.x-(v.width/2) < (player.x+player.width/2) &&
 			v.x+(v.width/2) > (player.x-player.width/2) {
 			switch {

@@ -44,7 +44,7 @@ func (s *GameOverState) init() {
 	button.onClick = func() { }
 	s.objsys.addObject(button, "button")
 	s.objsys.elements["button"].(*Button).text = "   Play Again   "
-	s.objsys.elements["button"].(*Button).onClick = func() { statesys.setState(&game) }
+	s.objsys.elements["button"].(*Button).onClick = func() { statesys.setState(&menu) }
 }
 
 func (s *GameOverState) loop() {
