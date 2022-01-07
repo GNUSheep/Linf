@@ -35,9 +35,7 @@ func (s *OptionsState) init() {
 	for i := int32(0); i < 2; i++ {
 		button := &Button{
 			x: (winWidth/2+200) - 400 * i, y: winHeight/2 - 50, width: 220, height: 65, text: " ",
-			layer: 1,
-			bgColor: sdl.Color{0, 0, 255, 255},
-			fgColor: sdl.Color{255, 255, 255, 255}}
+			layer: 1}
 		button.onClick = func() { }
 		s.objsys.addObject(button, "options_button_controls" + strconv.Itoa(int(i)))
 	}
@@ -53,9 +51,7 @@ func (s *OptionsState) init() {
 	for i := int32(0); i < 2; i++ {
 		button := &Button{
 			x: (winWidth/2+200) - 400 * i, y: winHeight/2 + 150, width: 220, height: 65, text: " ",
-			layer: 1,
-			bgColor: sdl.Color{0, 0, 255, 255},
-			fgColor: sdl.Color{255, 255, 255, 255}}
+			layer: 1}
 		button.onClick = func() { }
 		s.objsys.addObject(button, "options_button_level" + strconv.Itoa(int(i)))
 	}
@@ -66,10 +62,7 @@ func (s *OptionsState) init() {
 
 	// Exit
 	button := &Button{
-		x: 75, y: 50, width: 100, height: 65, text: " ",
-		layer: 1,
-		bgColor: sdl.Color{0, 0, 255, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
+		x: 75, y: 50, width: 100, height: 65, text: " ", layer: 1}
 	button.onClick = func() { }
 	s.objsys.addObject(button, "options_button_exit")
 	s.objsys.elements["options_button_exit"].(*Button).text = "Exit"

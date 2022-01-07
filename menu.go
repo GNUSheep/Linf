@@ -28,9 +28,7 @@ func (s *MenuState) init() {
 	for i := int32(0); i < 3; i++ {
 		button := &Button{
 			x: winWidth/2, y: winHeight/2+((65+10)*i)-50, width: 220, height: 65, text: " ",
-			layer: 1,
-			bgColor: sdl.Color{0, 0, 255, 255},
-			fgColor: sdl.Color{255, 255, 255, 255}}
+			layer: 1}
 		button.onClick = func() { }
 		s.objsys.addObject(button, "button" + strconv.Itoa(int(i)))
 	}

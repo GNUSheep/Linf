@@ -38,9 +38,7 @@ func (s *GameOverState) init() {
 	}
 	button := &Button{
 		x: winWidth/2, y: winHeight/5 + 250, width: 220, height: 65, text: " ",
-		layer: 1,
-		bgColor: sdl.Color{0, 0, 255, 255},
-		fgColor: sdl.Color{255, 255, 255, 255}}
+		layer: 1}
 	button.onClick = func() { }
 	s.objsys.addObject(button, "button")
 	s.objsys.elements["button"].(*Button).text = "   Play Again   "
