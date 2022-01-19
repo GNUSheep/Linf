@@ -100,7 +100,6 @@ func (p *Player) draw(renderer *sdl.Renderer) {
 	texture, _ = renderer.CreateTextureFromSurface(texfile)
 	defer texfile.Free()
 	defer texture.Destroy()
-
 	renderer.CopyEx(texture, nil, &sdl.Rect{p.x - (p.width / 2), p.y - (p.height / 2),
 		p.width, p.height}, p.rotation, &sdl.Point{p.width / 2, p.height / 2}, 0)
 }

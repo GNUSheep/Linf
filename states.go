@@ -4,6 +4,8 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+var Transition = false
+
 type State interface {
 	init()
 	loop()
@@ -22,6 +24,7 @@ func (ss *StateSystem) init(s State) {
 }
 
 func (ss *StateSystem) setState(s State) {
+	Transition = true
 	ss.current = s
 	ss.changed = true
 }
@@ -29,6 +32,7 @@ func (ss *StateSystem) setState(s State) {
 func (ss *StateSystem) loop() {
 	for ss.active == true {
 		ss.changed = false
+		Transition = false
 		ss.current.init()
 		renderer.Present()
 		if ss.changed == true {

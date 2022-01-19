@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/veandco/go-sdl2/sdl"
 	"sort"
+	//"fmt"
+	//"time"
 )
 
 type Object interface {
@@ -52,4 +54,19 @@ func (o *ObjectSystem) handleInput() {
 func (o *ObjectSystem) update() {
 	o.handleInput()
 	o.draw(renderer)
+	if Transition == true {
+		o.Show()
+	}
+}
+
+func (o *ObjectSystem) Show(){
+		for i, _ := range o.elements {
+			if i != "bg"{
+				if *o.elements[i].X() < 1000{
+					*o.elements[i].X() += int32(float32(deltaTime)/25 + 30)
+				}else{
+					statesys.setState(&game)
+				}
+			}
+		}
 }
