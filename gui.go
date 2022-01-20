@@ -18,6 +18,10 @@ type Button struct {
 	onClick       func()
 }
 
+var click = Sound{
+	path: "res/click.wav",
+}
+
 func (b *Button) X() *int32   { return &b.x }
 func (b *Button) Y() *int32   { return &b.y }
 func (b *Button) Layer() *int { return &b.layer }
@@ -66,6 +70,8 @@ func (b *Button) handleInput(e sdl.Event) {
 			case 1:
 				b.isPressed = true
 			case 0:
+				click.init()
+				click.play()
 				b.onClick()
 				b.isPressed = false
 			}

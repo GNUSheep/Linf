@@ -36,8 +36,7 @@ func (s *MenuState) init() {
 	s.objsys.elements["button1"].(*Button).text = "Options"
 	s.objsys.elements["button2"].(*Button).text = "   Exit   "
 	s.objsys.elements["button0"].(*Button).onClick = func() {
-		Transition = true
-		//statesys.setState(&game)
+		statesys.setState(&game)
 	}
 	s.objsys.elements["button1"].(*Button).onClick = func() { statesys.setState(&options) }
 	s.objsys.elements["button2"].(*Button).onClick = func() { os.Exit(0) }

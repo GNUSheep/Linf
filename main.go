@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/veandco/go-sdl2/ttf"
+	"Linf/mix"
 )
 
 var winTitle string = "Linf"
@@ -25,7 +26,9 @@ func main() {
 	sdl.Init(sdl.INIT_EVERYTHING)
 	ttf.Init()
 	defer sdl.Quit()
-
+	mix.Init(mix.INIT_FLAC | mix.INIT_MOD | mix.INIT_MP3 | mix.INIT_OGG)
+	mix.OpenAudio(mix.DEFAULT_FREQUENCY, mix.DEFAULT_FORMAT, mix.DEFAULT_CHANNELS, mix.DEFAULT_CHUNKSIZE)
+	defer mix.CloseAudio()
 	window, _ = sdl.CreateWindow(winTitle, sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, winWidth, winHeight, sdl.WINDOW_SHOWN)
 	defer window.Destroy()
 	renderer, _ = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)

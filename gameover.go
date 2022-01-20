@@ -43,6 +43,7 @@ func (s *GameOverState) init() {
 	s.objsys.addObject(button, "button")
 	s.objsys.elements["button"].(*Button).text = "   Play Again   "
 	s.objsys.elements["button"].(*Button).onClick = func() { statesys.setState(&menu) }
+	deathSound.play()
 }
 
 func (s *GameOverState) loop() {

@@ -21,6 +21,18 @@ type GameState struct {
 	objsys ObjectSystem
 }
 
+var jumpSound = Sound{
+	path: "res/jump.wav",
+}
+
+var deathSound = Sound{
+	path: "res/death.wav",
+}
+
+var pointSound = Sound{
+	path: "res/point.wav",
+}
+
 var game GameState
 
 func (s GameState) ObjectSystem() *ObjectSystem { return &s.objsys }
@@ -31,7 +43,6 @@ func (s *GameState) init() {
 	now := time.Now()
 	hour := now.Hour()
 	bg := &Background{file: "./res/l_night.png", layer: 0}
-
 	if hour <= 8 && hour >= 6 {
 		bg = &Background{file: "./res/l_sun_rise_yellow.png", layer: 0}
 	} else if hour <= 18 && hour >= 9 {
@@ -39,6 +50,9 @@ func (s *GameState) init() {
 	} else if hour <= 21 && hour >= 19 {
 		bg = &Background{file: "./res/l_sun_set.png", layer: 0}
 	}
+	jumpSound.init()
+	deathSound.init()
+	pointSound.init()
 	s.objsys.addObject(bg, "bg")
 	s.objsys.addObject(&Player{x: 250, y: 50, width: 50, height: 50,
 		layer: 1, textureFile: "./res/bird/bird3.png"}, "player")
@@ -110,6 +124,7 @@ func (p *Player) handleInput(e sdl.Event) {
 		os.Exit(0)
 	case *sdl.KeyboardEvent:
 		if t.Keysym.Sym == sdl.GetKeyFromName("Space") && t.State == 1 && control_way == "keyboard" {
+			jumpSound.play()
 			p.accelY += -29
 		}
 		if t.Keysym.Sym == sdl.K_ESCAPE {
@@ -117,6 +132,7 @@ func (p *Player) handleInput(e sdl.Event) {
 		}
 	case *sdl.MouseButtonEvent:
 		if t.Button == 1 && t.State == 1 && control_way == "mouse" {
+			jumpSound.play()
 			p.accelY += -29
 		}
 	}
@@ -140,11 +156,16 @@ func (s *Score) init(x int32, y int32, layer int){
 	s.score = &Text{x: winWidth/2, y: winHeight/5, layer: 2, text: "0", font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
 }
 
+var pointSoundPlayed = false
 func (s *Score) update() {
 	if counter >= 3 {
 		s.score = &Text{
 			x: winWidth/2, y: winHeight/5, layer: 2, text: strconv.Itoa(counter - 2), font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
+		if !pointSoundPlayed {
+			pointSound.play()
+			pointSoundPlayed = true
 		}
+	}
 }
 
 func (s *Score) draw(renderer *sdl.Renderer) {
@@ -213,6 +234,7 @@ func (p *Pipes) update() {
 		p.pipes = append(p.pipes, &Pipe{x: winWidth, y: vari, height: (winHeight / 2) - p.gapSize/2,
 			layer: p.layer, position: "bottom", textureFile: p.textureFile})
 		counter += 1
+		pointSoundPlayed = false
 	}
 	for _, v := range p.pipes {
 		v.update()
