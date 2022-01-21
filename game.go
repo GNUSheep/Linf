@@ -5,8 +5,8 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 	"math/rand"
 	"os"
-	"time"
 	"strconv"
+	"time"
 )
 
 const g = 1
@@ -40,27 +40,16 @@ func (s GameState) ObjectSystem() *ObjectSystem { return &s.objsys }
 func (s *GameState) init() {
 	rand.Seed(time.Now().UnixNano())
 	s.objsys.init()
-	now := time.Now()
-	hour := now.Hour()
-	bg := &Background{file: "./res/l_night.png", layer: 0}
-	if hour <= 8 && hour >= 6 {
-		bg = &Background{file: "./res/l_sun_rise_yellow.png", layer: 0}
-	} else if hour <= 18 && hour >= 9 {
-		bg = &Background{file: "./res/l_day.png", layer: 0}
-	} else if hour <= 21 && hour >= 19 {
-		bg = &Background{file: "./res/l_sun_set.png", layer: 0}
-	}
 	jumpSound.init()
 	deathSound.init()
 	pointSound.init()
-	s.objsys.addObject(bg, "bg")
 	s.objsys.addObject(&Player{x: 250, y: 50, width: 50, height: 50,
-		layer: 1, textureFile: "./res/bird/bird3.png"}, "player")
+		layer: 0, textureFile: "./res/bird/bird3.png"}, "player")
 	var score Score
-	score.init(1, 1, 2)
+	score.init(winWidth / 2, winHeight / 5, 1)
 	s.objsys.addObject(&score, "score")
 	var pipes Pipes
-	pipes.init(gapSize, 1, "./res/pipe.png")
+	pipes.init(gapSize, 0, "./res/pipe.png")
 	s.objsys.addObject(&pipes, "pipes")
 	counter = 0
 }
@@ -139,28 +128,29 @@ func (p *Player) handleInput(e sdl.Event) {
 }
 
 type Score struct {
-	x, y		int32
-	layer		int
-	score		*Text
+	x, y  int32
+	layer int
+	score *Text
 }
 
-func (s *Score) X() *int32   { return &s.x }
-func (s *Score) Y() *int32   { return &s.y }
-func (s *Score) Layer() *int { return &s.layer }
+func (s *Score) X() *int32               { return &s.x }
+func (s *Score) Y() *int32               { return &s.y }
+func (s *Score) Layer() *int             { return &s.layer }
 func (s *Score) handleInput(e sdl.Event) {}
 
-func (s *Score) init(x int32, y int32, layer int){
+func (s *Score) init(x int32, y int32, layer int) {
 	s.x = x
 	s.y = y
 	s.layer = layer
-	s.score = &Text{x: winWidth/2, y: winHeight/5, layer: 2, text: "0", font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
+	s.score = &Text{x: x, y: y, layer: layer, text: "0", font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
 }
 
 var pointSoundPlayed = false
+
 func (s *Score) update() {
 	if counter >= 3 {
 		s.score = &Text{
-			x: winWidth/2, y: winHeight/5, layer: 2, text: strconv.Itoa(counter - 2), font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
+			x: s.x, y: s.y, layer: s.layer, text: strconv.Itoa(counter - 2), font: font_score, size: 0.4, fgColor: sdl.Color{255, 255, 255, 255}}
 		if !pointSoundPlayed {
 			pointSound.play()
 			pointSoundPlayed = true
@@ -169,6 +159,8 @@ func (s *Score) update() {
 }
 
 func (s *Score) draw(renderer *sdl.Renderer) {
+	s.score.x = s.x
+	s.score.y = s.y
 	s.score.draw(renderer)
 }
 
@@ -260,7 +252,9 @@ func (p *Pipes) init(gapSize int32, layer int, texture string) {
 
 func (p *Pipes) draw(renderer *sdl.Renderer) {
 	for _, e := range p.pipes {
+		e.x += p.x
 		e.draw(renderer)
+		e.x -= p.x
 	}
 }
 

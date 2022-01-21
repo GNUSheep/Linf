@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	"time"
 	"strconv"
 )
 
@@ -13,17 +12,17 @@ var options OptionsState
 
 func (s *OptionsState) init() {
 	s.objsys.init()
-	now := time.Now()
-	hour := now.Hour()
-	bg := &Background{file: "./res/l_sun_set.png", layer: 0}
-	if hour <= 8 && hour >= 6{
-		bg = &Background{file: "./res/l_sun_rise_yellow.png", layer: 0}
-	}else if hour <= 18 && hour >= 9{
-		bg = &Background{file: "./res/l_day.png", layer: 0}
-	}else if hour <= 21 && hour >= 19{
-		bg = &Background{file: "./res/l_sun_set.png", layer: 0}
-	}
-	s.objsys.addObject(bg, "bg")
+	// now := time.Now()
+	// hour := now.Hour()
+	// bg := &Background{file: "./res/l_sun_set.png", layer: 0}
+	// if hour <= 8 && hour >= 6{
+		// bg = &Background{file: "./res/l_sun_rise_yellow.png", layer: 0}
+	// }else if hour <= 18 && hour >= 9{
+		// bg = &Background{file: "./res/l_day.png", layer: 0}
+	// }else if hour <= 21 && hour >= 19{
+		// bg = &Background{file: "./res/l_sun_set.png", layer: 0}
+	// }
+	// s.objsys.addObject(bg, "bg")
 	options_text := &Text{
 		x: winWidth/2, y: winHeight/5, layer: 0, text: "Options", font: font, size: 0.8, fgColor: sdl.Color{255, 255, 255, 255}}
 	s.objsys.addObject(options_text, "options_text")
