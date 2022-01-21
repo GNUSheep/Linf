@@ -29,7 +29,6 @@ func (ss *StateSystem) init(s State) {
 func (ss *StateSystem) setState(s State) {
 	ss.old = ss.current
 	ss.current = s
-	ss.changed = true
 	Transition = true
 }
 
@@ -45,14 +44,14 @@ func (ss *StateSystem) loop() {
 			lastTime := sdl.GetTicks()
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
-			// if Transition == true {
-				// ss.old.ObjectSystem().update()
-				// ss.trans()
-			// } else {
-				// ss.current.loop()
-			// }
-			ss.current.loop()
-			ss.current.ObjectSystem().update()
+			if Transition == true {
+				// ss.old.loop()
+				ss.old.ObjectSystem().update()
+				ss.trans()
+			} else {
+				ss.current.loop()
+				ss.current.ObjectSystem().update()
+			}
 			renderer.Present()
 			sdl.Delay(1000/40)
 			deltaTime = sdl.GetTicks() - lastTime
